@@ -7,13 +7,12 @@ public class TicTacToeFrame extends JFrame
     JPanel buttonPanel;
     JPanel labelPanel;
 
-    // Labels for the game
-    JLabel playerLabel;
-    JLabel gameStatusLabel;
-
     // Buttons for the game
-    JButton[][] buttons;
+    TicTacToeButton[][] buttons;
     JButton exitButton;
+
+    JOptionPane resultPane;
+    JOptionPane illegalMovePane;
 
     public TicTacToeFrame()
     {
@@ -22,10 +21,10 @@ public class TicTacToeFrame extends JFrame
         buttonPanel = new JPanel();
         labelPanel = new JPanel();
 
-        playerLabel = new JLabel("Player: X");
-        gameStatusLabel = new JLabel("");
+        createButtonPanel();
+        createLabelPanel();
 
-        buttons = new JButton[3][3];
+        buttons = new TicTacToeButton[3][3];
         exitButton = new JButton("Exit");
 
         // Set the layout for the panels
@@ -34,10 +33,40 @@ public class TicTacToeFrame extends JFrame
         {
             for(int col = 0; col < 3; col++)
             {
-                buttons[row][col] = new JButton();
+                buttons[row][col] = new TicTacToeButton(row, col);
                 gameBoardPanel.add(buttons[row][col]);
             }
         }
-        
+
+        gameBoardPanel.add(buttonPanel);
+        gameBoardPanel.add(labelPanel);
+
+        setTitle("Tic Tac Toe");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Set the size of the frame
+        setSize(300, 300);
+
+        setVisible(true);
+        add(gameBoardPanel, java.awt.BorderLayout.CENTER);
+    }
+
+    private void createButtonPanel()
+    {
+        buttonPanel = new JPanel();
+        exitButton = new JButton("Exit");
+        buttonPanel.add(exitButton);
+        exitButton.addActionListener(e -> System.exit(0));
+        add(buttonPanel, java.awt.BorderLayout.SOUTH);
+    }
+
+    private void createLabelPanel()
+    {
+        resultPane = new JOptionPane();
+        illegalMovePane = new JOptionPane();
+        labelPanel = new JPanel();
+        labelPanel.add(resultPane);
+        labelPanel.add(illegalMovePane);
+        add(labelPanel, java.awt.BorderLayout.NORTH);
     }
 }
