@@ -1,11 +1,12 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class TicTacToeFrame extends JFrame
 {
     // Panels for the game board
+    JPanel mainPanel;
     JPanel gameBoardPanel;
     JPanel buttonPanel;
-    JPanel labelPanel;
 
     // Buttons for the game
     TicTacToeButton[][] buttons;
@@ -14,15 +15,24 @@ public class TicTacToeFrame extends JFrame
     JOptionPane resultPane;
     JOptionPane illegalMovePane;
 
+    private int moveCount = 0;
+    private static final int MovesForWin = 5;
+    private static final int MovesForTie = 7;
+
     public TicTacToeFrame()
     {
         // Initialize the components
         gameBoardPanel = new JPanel();
         buttonPanel = new JPanel();
-        labelPanel = new JPanel();
+        mainPanel = new JPanel();
+
+
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        mainPanel.add(gameBoardPanel, BorderLayout.CENTER);
+
+        setTitle("Tic Tac Toe");
 
         createButtonPanel();
-        createLabelPanel();
 
         buttons = new TicTacToeButton[3][3];
         exitButton = new JButton("Exit");
@@ -35,20 +45,20 @@ public class TicTacToeFrame extends JFrame
             {
                 buttons[row][col] = new TicTacToeButton(row, col);
                 gameBoardPanel.add(buttons[row][col]);
+
             }
         }
 
-        gameBoardPanel.add(buttonPanel);
-        gameBoardPanel.add(labelPanel);
-
-        setTitle("Tic Tac Toe");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         // Set the size of the frame
-        setSize(300, 300);
+        setSize(500, 500);
+
+        add(mainPanel);
 
         setVisible(true);
-        add(gameBoardPanel, java.awt.BorderLayout.CENTER);
+        game();
     }
 
     private void createButtonPanel()
@@ -56,17 +66,35 @@ public class TicTacToeFrame extends JFrame
         buttonPanel = new JPanel();
         exitButton = new JButton("Exit");
         buttonPanel.add(exitButton);
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "The user has exited the game", "Exit", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        });
         add(buttonPanel, java.awt.BorderLayout.SOUTH);
     }
-
-    private void createLabelPanel()
-    {
-        resultPane = new JOptionPane();
-        illegalMovePane = new JOptionPane();
-        labelPanel = new JPanel();
-        labelPanel.add(resultPane);
-        labelPanel.add(illegalMovePane);
-        add(labelPanel, java.awt.BorderLayout.NORTH);
+    public void game (){
+        for(int row=0; row < 3; row++)
+        {
+            for(int col=0; col < 3; col++)
+            {
+                buttons[row][col].clear();
+            }
+        }
+        moveCount = 0;
     }
+
+    private void handleMove(int row, int col) {
+        if (!buttons[row][col].getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "This is an illegal move", "Illegal Move", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        buttons[row][col].setText((moveCount % 2 == 0) ? "X" : "O");
+        moveCount++;
+
+        if (moveCount >= MovesForWin) {
+
+        }
+    }
+
 }
