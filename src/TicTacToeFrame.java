@@ -137,6 +137,7 @@ public class TicTacToeFrame extends JFrame
                 game();
             }
             else {
+                JOptionPane.showMessageDialog(this, "The user has exited the game", "Exit", JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             }
         } else if (moveCount >= MovesForTie && isTie()) {
@@ -149,6 +150,7 @@ public class TicTacToeFrame extends JFrame
                 game();
             }
             else {
+                JOptionPane.showMessageDialog(this, "The user has exited the game", "Exit", JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             }
         }
